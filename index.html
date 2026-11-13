@@ -198,7 +198,7 @@ function refreshLabels(){const show=labelsVisible&&model;const active={reject:au
  for(const key of fixedKeys){const el=labelElements['fixed_'+key];el.style.display='none';if(!show||!fixedAnchors[key])continue;labelPoint.fromArray(fixedAnchors[key]);model.localToWorld(labelPoint);labelPoint.project(camera);if(labelPoint.z<-1||labelPoint.z>1)continue;const x=(labelPoint.x+1)*w/2,y=(1-labelPoint.y)*h/2;if(x<12||x>w-135||y<38||y>h-28)continue;el.style.left=x+'px';el.style.top=y+'px';el.style.display='block';}}
 let last=performance.now(),acc=0;
 function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.1);last=now;
- if(playing){if(fullDemo){fullDemoElapsed+=dt;if(fullDemoElapsed>=75){fullDemoElapsed=0;waveClock=0;washWaveClock=0;}applyFullDemo(fullDemoElapsed);}const opDt=dt*speed;waveClock+=dt*flowAnimationSpeed*(speed/60);for(const key of Object.keys(auxClocks)){if(key!=='reject'||auxIsProduction())auxClocks[key]+=dt*auxSpeeds[key]*(speed/60);}pumpClock+=dt*(speed/60);if(washActive)washWaveClock+=dt*flowAnimationSpeed*(speed/60);acc+=dt;
+ if(playing){if(fullDemo){fullDemoElapsed+=dt;if(fullDemoElapsed>=75){fullDemoElapsed=0;waveClock=0;washWaveClock=0;}applyFullDemo(fullDemoElapsed);}const opDt=dt*speed;waveClock+=dt*flowAnimationSpeed*(speed/60)*(operationMode==='production'?2.5:1);for(const key of Object.keys(auxClocks)){if(key!=='reject'||auxIsProduction())auxClocks[key]+=dt*auxSpeeds[key]*(speed/60);}pumpClock+=dt*(speed/60);if(washActive)washWaveClock+=dt*flowAnimationSpeed*(speed/60);acc+=dt;
   if(fullDemo){/* Tempos e transições definidos pela apresentação, sem modificar a programação real. */}
   else if(operationMode==='production'){
    productionClock+=opDt;cycleClock+=opDt;productionSinceWash+=opDt;
